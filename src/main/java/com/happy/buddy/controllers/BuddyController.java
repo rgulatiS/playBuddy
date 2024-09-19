@@ -2,6 +2,7 @@ package com.happy.buddy.controllers;
 
 import com.happy.buddy.entities.Buddy;
 import com.happy.buddy.repositories.BuddyRepository;
+import com.happy.buddy.services.BuddyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class BuddyController {
 
     @Autowired
     private BuddyRepository buddyRepository;
+
+    @Autowired
+    private BuddyService buddyService;
 
     public BuddyController() {}
 
@@ -30,6 +34,6 @@ public class BuddyController {
     @PostMapping
     public UUID addBuddy(@RequestBody  Buddy buddy){
         //basic validation before save
-        return buddyRepository.save(buddy).getBuddyId();
+        return buddyService.addBuddyWithAddressAndActivity(buddy);
     }
 }

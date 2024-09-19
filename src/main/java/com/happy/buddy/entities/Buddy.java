@@ -9,8 +9,8 @@ import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +22,7 @@ public class Buddy {
 
     @Id
     @UuidGenerator
+    @Column(name = "buddy_id")
     private UUID buddyId;
     private String buddyName;
 
@@ -31,12 +32,6 @@ public class Buddy {
     private LocalDateTime buddyDob;
     private Gender gender;
 
-    private String address;
-    private String city;
-    private String state;
-    private String country;
-    private Integer pinCode;
-
     private String email;
     private String phone;
 
@@ -44,7 +39,20 @@ public class Buddy {
     private String emergencyContactPhone;
     private String emergencyContactEmail;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_buddy_id", referencedColumnName = "buddy_id")
+    private List<BuddyActivity> buddyActivities;
+
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "activity",
+//            joinColumns = @JoinColumn(name = "buddyId"),
+//            inverseJoinColumns = @JoinColumn(name = "activityId"))
+//    private List<Activity> activities;
 
 
 }
