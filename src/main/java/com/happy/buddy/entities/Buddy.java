@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "buddy")
+@Table(name = "buddy", uniqueConstraints = { @UniqueConstraint(columnNames = { "email", "phone" }) })
 @Getter
 @Setter
 @ToString
@@ -31,6 +31,7 @@ public class Buddy {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime buddyDob;
     private Gender gender;
+
 
     private String email;
     private String phone;

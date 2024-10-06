@@ -34,7 +34,8 @@ public class BuddyService {
     public UUID addBuddyWithAddressAndActivity(Buddy buddy) {
 
         Buddy buddySaved = buddyRepository.save(buddy);
-        Address address = addressRepository.save(buddy.getAddress());
+        Address address = new Address();
+        if( buddy.getAddress() != null ) {address = addressRepository.save(buddy.getAddress());}
         List<BuddyActivity> buddyActivityListM = buddy.getBuddyActivities().stream().map(x-> {
             BuddyActivity buddyActivity = new BuddyActivity();
 
@@ -45,7 +46,7 @@ public class BuddyService {
         List<BuddyActivity> buddyActivityList = buddyActivityRepository.saveAll(buddyActivityListM);
         buddy.setAddress(address);
         buddy.setBuddyActivities(buddyActivityList);
-
+        System.out.println("Saved Buddy Id " + buddySaved.getBuddyId());
         return buddySaved.getBuddyId();
 
     }
