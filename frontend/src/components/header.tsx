@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, {useState} from "react";
 import {BsFillPersonLinesFill} from "react-icons/bs";
 
-import Playbuddy from '../playbuddy.jpg';
+import Playbuddy from '../image/playbuddy.jpg';
 import {NavLink} from "react-router-dom";
 
 const HeaderGrid = styled.div`

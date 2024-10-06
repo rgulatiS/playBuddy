@@ -6,6 +6,4 @@ public enum ProficiencyLevel {
     PROFESSIONAL,
     STATE,
     NATIONAL
-
-
 }

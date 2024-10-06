@@ -1,3 +1,7 @@
+export interface IBuddyActivity {
+    "activity": {"activityId": number},
+    "selfDeclaredProficiency": string
+}
 export interface IRegisterBuddy {
     "buddyName": string,
     "buddyDob": string,
@@ -17,10 +21,5 @@ export interface IRegisterBuddy {
             "country": string
         } | undefined | null
     ,
-    "buddyActivities": [
-        {
-            "activity": {"activityId": number},
-            "selfDeclaredProficiency": string
-        }
-    ] | undefined | []
+    "buddyActivities": IBuddyActivity[] | undefined | []
 } ;
