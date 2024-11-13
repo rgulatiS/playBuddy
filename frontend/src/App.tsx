@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import {RegisterBuddy} from "./components/register-buddy";
 import {GlobalVariable} from "./global";
+import {RegisterFacility} from "./components/register-faciity";
 
 function App() {
 
@@ -19,9 +20,12 @@ function App() {
       element: (
           <div>
             <h1>Hello World</h1>
-            <Link to="register">Register</Link>
+            <Link to="registerBuddy">Register</Link>
             <div></div>
             <Link to="login">Login</Link>
+
+            <div><span>Are you a Play Facility provider Register Here</span></div>
+            <Link to="registerFacility">RegisterFacility</Link>
           </div>
       ),
     },
@@ -34,8 +38,12 @@ function App() {
       element: <div>Login</div>,
     },
     {
-      path: "register",
+      path: "registerBuddy",
       element:<RegisterBuddy></RegisterBuddy>,
+    },
+    {
+      path: "registerFacility",
+      element:<RegisterFacility></RegisterFacility>,
     },
   ]);
 

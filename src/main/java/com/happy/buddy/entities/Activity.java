@@ -25,7 +25,5 @@ public class Activity {
     private ActivityType activityType;
     private String description;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="activity_id")
-//    private Activity activity;
+
 }
