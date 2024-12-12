@@ -7,6 +7,40 @@ import {IActivity} from "../interface/IActivity";
 import {getAllActivities} from "../services/activity-service";
 import {ICourt, IFetchedCourt} from "../interface/ICourt";
 
+
+const ErrorRow = styled.div<{ isSuccess: boolean }>`
+    display: grid;
+    grid-template-columns: 1fr;
+    box-sizing: border-box;
+    margin: 5px;
+    //width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 11px;
+    border-radius: 5px;
+    position: relative;
+    border: 3px solid ${({isSuccess}) => isSuccess ? "#006400FF" : "#8B0000FF"};
+    background: ${({isSuccess}) => isSuccess ? "#488B00FF" : "#8B0000FF"};
+    color: white;
+`
+const ErrorEmptyRow = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    box-sizing: border-box;
+    margin: 5px;
+    //width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 11px;
+    border-radius: 5px;
+    position: relative;
+    border: none;
+    background: transparent;
+    //color: white;
+`
+
 const TableContainer = styled.div`
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -91,7 +125,11 @@ export function Facilities(props: any) {
 
     return (
         isFacilityLoading || isActivityLoading ? <AiOutlineLoading></AiOutlineLoading> :
+<div>
+    {showError ? <ErrorRow isSuccess={false}>{errorMessage}</ErrorRow> : <ErrorEmptyRow> </ErrorEmptyRow>}
+
             <TableContainer>
+
                 <Heading>Facility Activities and Prices</Heading>
                 <Table>
                     <thead>
@@ -114,6 +152,6 @@ export function Facilities(props: any) {
                     </tbody>
                 </Table>
             </TableContainer>
-
+</div>
     )
 }

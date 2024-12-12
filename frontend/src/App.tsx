@@ -20,8 +20,8 @@ function App() {
       path: "/",
       element: (
           <div>
-            <h1>Hello World</h1>
-              <Facilities></Facilities>
+
+
             <Link to="registerBuddy">Register</Link>
             <div></div>
             <Link to="login">Login</Link>
@@ -53,7 +53,7 @@ function App() {
     <div className="App">
     <Header></Header>
 <body>
-getFacilities().forEach()
+<Facilities></Facilities>
 </body>
       <RouterProvider router={router}></RouterProvider>
       {/*<div>*/}
