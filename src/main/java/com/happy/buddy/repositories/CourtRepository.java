@@ -16,5 +16,6 @@ public interface CourtRepository extends JpaRepository<Court, CourtPk> {
 
 
     List<Court> findByIdFacilityIdAndIdActivityIdOrderByIdDesc(Long id_facilityId, Long id_activityId);
+    List<Court> findByIdFacilityIdAndIdActivityIdOrderByIdCourtIdDesc(Long id_facilityId, Long id_activityId);
 
 }

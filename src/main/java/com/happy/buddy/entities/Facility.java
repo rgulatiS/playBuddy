@@ -1,6 +1,7 @@
 package com.happy.buddy.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
@@ -31,7 +32,7 @@ public class Facility {
     private Address facilityAddress;
 
     @OneToMany(mappedBy = "facility")
-    private Set<Court> courts;
+    private List<Court> courts;
 
 
     private String facilityPocPhone;
@@ -48,6 +49,8 @@ public class Facility {
     private String facilityOwnerName;
 
     private boolean isActive;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate registeredOn;
 
 }

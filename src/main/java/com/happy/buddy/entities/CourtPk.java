@@ -1,8 +1,7 @@
 package com.happy.buddy.entities;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,8 @@ public class CourtPk implements Serializable {
 
     @Column(name = "activity_id")
     private Long activityId;
-
+    
+    @Column(name = "court_id")
     private Long courtId;
 
 

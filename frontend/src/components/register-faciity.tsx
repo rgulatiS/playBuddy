@@ -1,12 +1,15 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {GiCricketBat, GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
 import {GrSwim} from "react-icons/gr";
-import {IRegisterFacility} from "../interface/IRegisterFacility";
+import {IFacility} from "../interface/IFacility";
 import {registerFacilityService} from "../services/register-facility-service";
 import {isAfter} from "date-fns";
 import {Address} from "./address";
 import {IAddress} from "../interface/IAddress";
+import {ICourt} from "../interface/ICourt";
+import {getAllActivities} from "../services/activity-service";
+import {IActivity} from "../interface/IActivity";
 
 
 const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({
@@ -213,6 +216,14 @@ function getDays() {
     return days;
 }
 
+function getCounts() {
+    const counts: number[] = [];
+    for (let i = 1; i < 100; i++) {
+        counts.push(i);
+    }
+    return counts;
+}
+
 function getYears() {
     const years: number[] = [];
     const year = new Date().getFullYear();
@@ -256,6 +267,9 @@ function isNotNull(value: string | undefined | null) {
 }
 
 export function RegisterFacility() {
+    const counts = getCounts();
+    const [activities , setActivities] = useState<IActivity[]>([])
+    const [isActivityLoading, setIsActivityLoading] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showResult, setShowResult] = useState<boolean>(false);
@@ -279,6 +293,10 @@ export function RegisterFacility() {
 
     const [password, setPassword] = useState<string>("");
 
+    const [selectedActivity, setSelectedActivity] = useState<string>("");
+    const [selectedCount, setSelectedCount] =useState<number>(0);
+    const [courtComment, setCourtComment] = useState<string>("");
+
     const dummyAddress = {
         "addressType": "facilityAddress",
         "gpsLocation": null,
@@ -295,28 +313,28 @@ export function RegisterFacility() {
     const [address, setAddress] = useState<IAddress>(dummyAddress)
     // const [isActivityLoading, setIsActivityLoading] = useState<boolean>(true);
     // const [activities, setActivities] = useState<IActivity[]>([]);
-
+    const [courts , setCourts] = useState<ICourt[]>([]);
 
     const nameRegex = new RegExp("^[a-zA-Z.][^0-9]*$");
     const nameRegexWithSpace = new RegExp("^[a-zA-Z\\s? .][^\\t\\n\\r0-9]*$");
     const phoneNumberRegex = new RegExp("^(\\+91[\\-\\s]?)?[0]?(91)?[789]\\d{9}$");
     const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
 
-    // useEffect(() => {
-    //     getAllActivities().then((response) => {
-    //             setIsActivityLoading(true);
-    //             if (response.status === 200) {
-    //                 setActivities(response.data);
-    //                 console.log(response.data)
-    //                 setIsActivityLoading(false);
-    //             }
-    //         }
-    //     ).catch((err) => {
-    //         setShowError(true);
-    //         setErrorMessage("Activities not loaded" + err.toString());
-    //
-    //     })
-    // }, [""])
+    useEffect(() => {
+        getAllActivities().then((response) => {
+                setIsActivityLoading(true);
+                if (response.status === 200) {
+                    setActivities(response.data);
+                    console.log(response.data)
+                    setIsActivityLoading(false);
+                }
+            }
+        ).catch((err) => {
+            setShowError(true);
+            setErrorMessage("Activities not loaded" + err.toString());
+
+        })
+    }, [])
 
     function validateName(localName: string) {
         return !!(localName != null && localName.length > 0 && localName.match(nameRegexWithSpace));
@@ -370,16 +388,33 @@ export function RegisterFacility() {
         //Need Courts
     }
 
-
+    function  addZeroIfSingleDigit(val: number) : string {
+        return val > 9 ? val.toString() : "0" + val.toString();
+    }
     function submitForm() {
         // const declaredActivities : IBuddyActivity[] = activities.filter((act)=>act.isSelected).map((act) =>
         //     {return ({activity: {activityId: act.activityId},
         //             selfDeclaredProficiency: "BEGINNER"})
         //     }
         // );
+        let finalCourts : ICourt[] = courts;
+if(selectedCount > 0) {
+    const getCourtValues = (seq: number): ICourt => ({
+        id: {
+            activityId: selectedActivity,
+        }
+        , courtFeatures: seq.toString().concat(":").concat(courtComment)
+    });
+console.log(getCourtValues(1));
+    for (let i = 1; i <= selectedCount; i++) {
+    finalCourts = [...finalCourts, getCourtValues(i)];
 
-        const registerFacility: IRegisterFacility = {
-            registeredOn: yearOfActivation.toString().concat("-").concat(monthOfActivation.toString()).concat("-").concat(dayOfActivation.toString()),
+    }
+}
+
+        const registerFacility: IFacility = {
+            registeredOn: yearOfActivation.toString().concat("-").concat(addZeroIfSingleDigit(monthOfActivation))
+                .concat("-").concat(addZeroIfSingleDigit(dayOfActivation)),
             facilityName: facilityName,
             facilityPocPhone: pocPhoneNumber,
             facilityPocEmail: pocEmail,
@@ -388,7 +423,7 @@ export function RegisterFacility() {
             facilityOwnerEmail: ownerEmail,
             facilityOwnerName: ownerName,
             active: true,
-            courts: [],
+            courts: finalCourts,
             facilityAddress: {
                 addressType: "facilityAddress",
                 gpsLocation: null,
@@ -582,10 +617,16 @@ export function RegisterFacility() {
         validateActivationDate(value, monthOfActivation, dayOfActivation);
     }
 
+
+
+
+
     return (
-        // isActivityLoading ?
-        //     <RegisterForm><QuestionImage src={playBuddyLoading}>
-        //     </QuestionImage></RegisterForm> :
+        isActivityLoading ?
+            <RegisterForm>
+                {/*<QuestionImage src={playBuddyLoading}> </QuestionImage>*/}
+                <SmartLabel> Screen is Loading </SmartLabel>
+            </RegisterForm> :
         <RegisterForm id={"registerForm"}>
             {showResult ? <ErrorRow isSuccess={resultMessage.includes("success")}>{resultMessage}</ErrorRow> :
                 <></>}
@@ -659,25 +700,26 @@ export function RegisterFacility() {
                        onChange={onChangePocEmail()} disabled={isPocOwnerSame}
                        value={pocEmail} aria-invalid={true}/>
             </Row>
-            {/*<SmartLabel>Choose any 3 Activities*/}
-            {/*    /!*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*!/*/}
-            {/*    /!*    <QuestionImage></QuestionImage></a>*!/*/}
-            {/*</SmartLabel>*/}
-            {/*<Row>*/}
-            {/*    {activities.map((activity) =>*/}
-            {/*        <GenderSpan>*/}
-            {/*            <ActivityButton isSelected={activity.isSelected}*/}
-            {/*                            id={activity.activityId.toString()}*/}
-            {/*                            onClick={updateActivities(activity)}*/}
-            {/*                            key={activity.activityId}>*/}
-            {/*                {*/}
-            {/*                    // getImage(activity.activityName) +*/}
-            {/*                    activity.activityName}*/}
-            {/*            </ActivityButton>*/}
-            {/*        </GenderSpan>*/}
-            {/*    )}*/}
+            <SmartLabel>Court Available with Activity
+                <a id="Activationday-help" href="#"  title="Click for more information" role="button" >
+                    <QuestionImage></QuestionImage></a>
+            </SmartLabel>
+            <Row>
+                <Select aria-label="Activities" name="Activationday_year" id="year" title="Year"
+                        onChange={event => setSelectedActivity(event.target.value)}
+                        value={selectedActivity}>
+                    {activities.map((activity) => <option value={activity.activityId}>{activity.activityName}</option>)}
+                </Select>
+                <Select aria-label="CourtCount" name="CourtCount" id="CourtCount" title="CourtCount"
+                        onChange={event => setSelectedCount(parseInt(event.target.value))}
+                        value={selectedCount}>
+                    {counts.map((count) => <option value={count}>{count}</option>)}
+                </Select>
+                <Input type="input" name="CourtComment" placeholder={"Special Comments On Court"}
+                       onChange={e=> setCourtComment(e.target.value)}
+                       value={courtComment}/>
 
-            {/*</Row>*/}
+            </Row>
             <Address setAddress={setAddress} address={address}></Address>
 
             <SmartLabel> Password<span style={{color: 'red'}}>*</span>

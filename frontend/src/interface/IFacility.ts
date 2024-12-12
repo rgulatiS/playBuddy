@@ -1,10 +1,11 @@
 import {IAddress} from "./IAddress";
+import {ICourt, IFetchedCourt} from "./ICourt";
 
 export interface IBuddyActivity {
     "activity": {"activityId": number},
     "selfDeclaredProficiency": string
 }
-export interface IRegisterFacility {
+export interface IFacility {
     "facilityName": string,
     // "registeredOn": "2024-11-10",
     "registeredOn": string,
@@ -18,7 +19,7 @@ export interface IRegisterFacility {
     "active": boolean
     "facilityAddress": IAddress | null
     ,
-    "courts": [] |  null
+    "courts": ICourt[] | [] |  null | IFetchedCourt[]
 } ;
 
 //{
