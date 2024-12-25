@@ -12,7 +12,7 @@ import {RegisterBuddy} from "./components/register-buddy";
 import {GlobalVariable} from "./global";
 import {RegisterFacility} from "./components/register-faciity";
 import {Facilities} from "./components/facilities";
-import {Home} from "./components/home";
+
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
       path: "/home",
       element
           : <>
-          <Header></Header>
+          <Header title={"Available Courts"}></Header>
           <Facilities></Facilities>
       </>
 
@@ -42,35 +42,35 @@ function App() {
     {
       path: "/about",
       element: <>
-          <Header></Header>
+          <Header title={"About Us"}></Header>
           <div>About</div>
       </>,
     },
     {
       path: "/login",
       element: <>
-          <Header></Header>
+          <Header title={"Login"}></Header>
           <div>Login</div>
       </>,
     },
     {
       path: "/registerBuddy",
       element:<>
-          <Header></Header>
+          <Header title={"Register Buddy"}></Header>
           <RegisterBuddy></RegisterBuddy>
       </>,
     },
     {
       path: "/registerFacility",
       element:<>
-          <Header></Header>
+          <Header title={"Register Facility"}></Header>
           <RegisterFacility></RegisterFacility>
       </>,
     },
       {
           path: "/",
           element:  <>
-              <Header></Header>
+              <Header title={"Available Courts"}></Header>
               <Facilities></Facilities>
           </>
       },

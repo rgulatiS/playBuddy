@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, {useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import {BsFillPersonLinesFill} from "react-icons/bs";
 
 import Playbuddy from '../image/playbuddy.jpg';
@@ -27,6 +28,20 @@ const FlexEnd = styled.div`
     margin-right: 5px;
 `;
 
+const FlexMiddle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    height: inherit;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: white;
+    background-color: #282c34;
+    border-radius: 6px;  
+
+`;
+
 // const Logo = styled.div`
 //     font-family: Arial, sans-serif;
 //     font-size: 20px;
@@ -43,7 +58,7 @@ const FlexEnd = styled.div`
 //         font-weight: 800;
 //     }
 // `
-const Profile = styled.div`
+const ProfileIcon = styled.div`
     font-family: Arial, sans-serif;
     font-size: 35px;
     font-weight: 800;
@@ -87,22 +102,27 @@ const Button = styled.button<{ width1: string }>`
 // }
 //
 // function checkIFAlready
+interface HeaderProps {
+    title: string;
+}
 
-export function Header() {
 
+export function Header(props: HeaderProps) {
+
+    const navigate = useNavigate();
     // const [show, setShow] = useState<String>("")
 
     return (
         <HeaderGrid>
             <FlexStart>
-                <Button width1={"120px"}>playbuddy</Button>
+                <Button width1={"120px"} onClick={() => navigate("/")} >playbuddy</Button>
             </FlexStart>
-            <div></div>
+            <FlexMiddle>{props.title}</FlexMiddle>
 
             <FlexEnd>
-                <Profile >
+                <ProfileIcon >
                     <BsFillPersonLinesFill title={"Account"}> </BsFillPersonLinesFill>
-                </Profile>
+                </ProfileIcon>
             </FlexEnd>
 
         </HeaderGrid>

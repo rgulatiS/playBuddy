@@ -3,17 +3,17 @@ package com.happy.buddy.entities;
 
 import com.happy.buddy.enums.ActivityType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
+import lombok.*;
 
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "activity")
+@Table(name = "activity", uniqueConstraints = @UniqueConstraint(columnNames =
+        { "activity_name", "activity_type" }))
 public class Activity extends BaseFields {
 
     @Id
@@ -25,5 +25,9 @@ public class Activity extends BaseFields {
     private ActivityType activityType;
     private String description;
 
-
+    public Activity(String activityName, ActivityType activityType, String description) {
+        this.activityName = activityName;
+        this.activityType = activityType;
+        this.description = description;
+    }
 }

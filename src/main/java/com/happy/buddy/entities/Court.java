@@ -8,32 +8,38 @@ import lombok.Setter;
 import lombok.ToString;
 
 
-
-
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "court")
-public class Court extends BaseFields{
+public class Court extends BaseFields {
 
 
     @EmbeddedId
     private CourtPk id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable=false, updatable=false)
+    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false)
     private Facility facility;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable=false, updatable=false)
+    @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable = false, updatable = false)
     private Activity activity;
 
     //activityName + seq
     private String courtName;
 
-//    private Integer minimumPersonRequired;
+    //    private Integer minimumPersonRequired;
 //    private Integer maximumPersonRequired;
+    private String courtPriceForOneHour;
+    private String courtPriceForTwoHours;
+    private String courtPriceForFourHours;
+    private String courtPriceForFullDay;
+
+    private boolean isLessPlayerDiscountAvailable;
+    private Integer lessPlayerDiscountInPercent;
+
     private String courtFeatures;
 
     public Facility getFacility() {
