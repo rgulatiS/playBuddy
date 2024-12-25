@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "activity")
-public class Activity {
+public class Activity extends BaseFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

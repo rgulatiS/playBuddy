@@ -18,7 +18,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "facility")
-public class Facility {
+public class Facility extends BaseFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -18,7 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class Buddy {
+public class Buddy extends BaseFields {
 
     @Id
     @UuidGenerator

@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "court")
-public class Court {
+public class Court extends BaseFields{
 
 
     @EmbeddedId

@@ -1,14 +1,18 @@
 package com.happy.buddy.controllers;
 
 
+import com.happy.buddy.dto.ErrorDto;
 import com.happy.buddy.entities.Activity;
 import com.happy.buddy.entities.Court;
 import com.happy.buddy.entities.CourtPk;
 import com.happy.buddy.entities.Facility;
+import com.happy.buddy.exceptions.NoDataFoundException;
 import com.happy.buddy.repositories.CourtRepository;
 import com.happy.buddy.repositories.FacilityRepository;
 import com.happy.buddy.services.CourtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -30,7 +34,7 @@ public class FacilityController {
 
 
     @PostMapping
-    public Long addFacility(@RequestBody Facility facility) throws Exception {
+    public ResponseEntity<Long> addFacility(@RequestBody Facility facility) throws NoDataFoundException {
         if (facility.getFacilityId() == null) {
             facility.setRegisteredOn(LocalDate.now());
         }
@@ -50,20 +54,31 @@ public class FacilityController {
 //            }
 //        });
         courtList.forEach(court -> System.out.println(court.getCourtFeatures()));
-            return facilityId;
+            return new ResponseEntity<>(facilityId, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public Facility getFacility(@PathVariable Long id) {
-        return facilityRepository.findById(id).orElseThrow();
+    public ResponseEntity<Facility> getFacility(@PathVariable Long id) throws NoDataFoundException {
+        Facility facility = facilityRepository.findById(id)
+                .orElseThrow(() -> new NoDataFoundException("Facility Id "+ id+ " not found "));
+        return new ResponseEntity<>(facility, HttpStatus.OK);
     }
 
 
     @GetMapping("/all/{city}")
-    public List<Facility> getFacilities(@PathVariable String city) {
-        return facilityRepository
+    public ResponseEntity<List<Facility>> getFacilities(@PathVariable String city) {
+        List<Facility> facilityList = facilityRepository
                    .findFacilitiesByisActiveAndFacilityAddress_City(true,city);
+        return new ResponseEntity<>(facilityList, HttpStatus.OK);
 
+    }
+
+
+    @ExceptionHandler(NoDataFoundException.class)
+    public ResponseEntity<ErrorDto> handleNoDataFoundException(Exception e){
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
 
 }

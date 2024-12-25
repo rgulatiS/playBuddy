@@ -3,6 +3,7 @@ package com.happy.buddy.services;
 import com.happy.buddy.entities.Activity;
 import com.happy.buddy.entities.Court;
 import com.happy.buddy.entities.CourtPk;
+import com.happy.buddy.exceptions.NoDataFoundException;
 import com.happy.buddy.repositories.ActivityRepository;
 import com.happy.buddy.repositories.CourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +119,7 @@ public class CourtService {
     }
 
     @Transactional
-    public List<Court> saveAllCourt(List<Court> courts) throws Exception {
+    public List<Court> saveAllCourt(List<Court> courts) throws NoDataFoundException {
 
 
         List<Court> courtList = new ArrayList<>();
@@ -172,6 +173,7 @@ public class CourtService {
 //        }
             if (!courtListWithError.isEmpty()) {
                 courtListWithError.forEach(System.out::println);
+                throw new NoDataFoundException("Insufficient Data : Facility and Activity is Required");
             }
 
         }

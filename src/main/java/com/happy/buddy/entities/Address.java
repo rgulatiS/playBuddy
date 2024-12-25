@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name ="address")
-public class Address {
+public class Address extends BaseFields{
 
     @Id
     @UuidGenerator

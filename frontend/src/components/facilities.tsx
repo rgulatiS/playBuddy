@@ -130,7 +130,7 @@ export function Facilities(props: any) {
 
             <TableContainer>
 
-                <Heading>Facility Activities and Prices</Heading>
+                {/*<Heading>Facility Activities and Prices</Heading>*/}
                 <Table>
                     <thead>
                     <tr>
