@@ -296,6 +296,7 @@ export function RegisterFacility() {
     const [selectedActivity, setSelectedActivity] = useState<string>("");
     const [selectedCount, setSelectedCount] =useState<number>(0);
     const [courtComment, setCourtComment] = useState<string>("");
+    const [selectedPricePerHour, setSelectedPricePerHour] = useState<string>("0");
 
     const dummyAddress = {
         "addressType": "facilityAddress",
@@ -402,8 +403,17 @@ if(selectedCount > 0) {
     const getCourtValues = (seq: number): ICourt => ({
         id: {
             activityId: selectedActivity,
-        }
-        , courtFeatures: seq.toString().concat(":").concat(courtComment)
+            facilityId: undefined,
+        },
+        courtName: undefined,
+        courtFeatures: seq.toString().concat(":").concat(courtComment),
+        courtPriceForOneHour: selectedPricePerHour,
+        courtPriceForTwoHours: (parseInt(selectedPricePerHour) * 2).toString(),
+        courtPriceForFourHours: (parseInt(selectedPricePerHour) * 2).toString(),
+        courtPriceForFullDay: "1000",
+        isLessPlayerDiscountAvailable: false,
+        lessPlayerDiscountInPercent: 10
+
     });
 console.log(getCourtValues(1));
     for (let i = 1; i <= selectedCount; i++) {

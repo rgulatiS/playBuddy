@@ -8,10 +8,17 @@ export enum ProficiencyLevel {
 
 export interface IActivity{
     "activityId": number,
-    "activityName": string,
+    "activityName": ActivityName,
     "activityType": string,
     "description": string,
     "isSelected": boolean,
     "proficiency": ProficiencyLevel
+}
+
+export enum ActivityName {
+    CRICKET = 'Cricket',
+    BADMINTON = 'Badminton',
+    SWIMMING = 'Swimming',
+    POOL = 'Pool',
 }
 

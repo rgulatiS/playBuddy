@@ -3,9 +3,14 @@ import {getFacilities} from "../services/register-facility-service";
 import {IFacility} from "../interface/IFacility";
 import {AiOutlineLoading} from "react-icons/ai";
 import styled from "styled-components";
-import {IActivity} from "../interface/IActivity";
+import {ActivityName, IActivity} from "../interface/IActivity";
 import {getAllActivities} from "../services/activity-service";
 import {ICourt, IFetchedCourt} from "../interface/ICourt";
+import {MdSportsCricket} from "react-icons/md";
+import {FaPersonSwimming} from "react-icons/fa6";
+import {GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
+import {useAppContext} from "../common/context";
+import {AppState} from "../interface/MainContext";
 
 
 const ErrorRow = styled.div<{ isSuccess: boolean }>`
@@ -65,6 +70,13 @@ const TableCell = styled.td`
     text-align: left;
 `;
 
+const Cell = styled.td`
+    display: flex;
+    padding: 12px;
+    text-align: left;
+    column-gap: 2px;
+`;
+
 const TableRow = styled.tr`
     &:nth-child(even) {
         background-color: #f9f9f9;
@@ -87,6 +99,8 @@ export function Facilities(props: any) {
     const [isActivityLoading, setIsActivityLoading] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const appContext = useAppContext()
+
 
     useEffect(() => {
         getAllActivities().then((response) => {
@@ -106,7 +120,7 @@ export function Facilities(props: any) {
 
 
     useEffect(() => {
-        getFacilities("Delhi").then((response) => {
+        getFacilities(appContext.state.city).then((response) => {
             setIsFacilityLoading(true);
             if (response.status === 200) {
                 setFacilities(response.data);
@@ -117,10 +131,31 @@ export function Facilities(props: any) {
             setErrorMessage("Facilities not loaded" + err.toString());
 
         })
-    }, []);
+    }, [appContext.state.city]);
 
     function getActivityName(court: ICourt | IFetchedCourt) {
         return activities.filter(activity =>  activity.activityId === parseInt(court.id.activityId)).at(0)?.activityName || "";
+    }
+    // function getIconOfActivity(activityName: string) {
+    //     if(activityName.match())
+    // }
+
+
+
+    const getIconOfActivity = (activityName: ActivityName | "") => {
+        // const [currentScreen, setCurrentScreen] = useState(ScreenTypes.ResultScreen)
+
+        return(
+            <div>
+                {
+                    activityName === ActivityName.CRICKET ?  <MdSportsCricket />
+                    :
+                    activityName === ActivityName.BADMINTON ?  <GiShuttlecock />:
+                activityName === ActivityName.SWIMMING ? <FaPersonSwimming /> :
+                activityName === ActivityName.POOL ? <GiPoolTableCorner /> : <></>
+                }
+            </div>
+        )
     }
 
     return (
@@ -135,7 +170,9 @@ export function Facilities(props: any) {
                     <thead>
                     <tr>
                         <TableHeader>Facility Name</TableHeader>
-                        <TableHeader>Activity</TableHeader>
+                        <TableHeader>Court Name</TableHeader>
+                        <TableHeader>Feature</TableHeader>
+
                         <TableHeader>Price</TableHeader>
                     </tr>
                     </thead>
@@ -144,8 +181,9 @@ export function Facilities(props: any) {
                         facility.courts?.map((court, index) => (
                             <TableRow key={index}>
                                 <TableCell>{facility.facilityName}</TableCell>
-                                <TableCell>{getActivityName(court)}</TableCell>
+                                <TableCell>{<Cell>{getIconOfActivity(getActivityName(court))}{" "} { court.courtName}</Cell>}</TableCell>
                                 <TableCell>{court.courtFeatures || ""}</TableCell>
+                                <TableCell>{court.courtPriceForOneHour || ""}</TableCell>
                             </TableRow>
                         ))
                     ))}

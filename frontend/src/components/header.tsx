@@ -1,10 +1,13 @@
 import styled from "styled-components";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import {BsFillPersonLinesFill} from "react-icons/bs";
-
+import {City, State} from 'country-state-city';
 import Playbuddy from '../image/playbuddy.jpg';
 import {NavLink} from "react-router-dom";
+import {useAppContext} from "../common/context";
+import {MdOutlineLocationOn} from "react-icons/md";
+import {getLocationFromGeoCode} from "../services/opencagelocation";
 
 const HeaderGrid = styled.div`
     display: grid;
@@ -42,6 +45,24 @@ const FlexMiddle = styled.div`
 
 `;
 
+
+const Select = styled.select`
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    width: 200px;
+    padding: 0 8px 0 8px;
+    border-radius: 5px;
+    position: relative;
+    //border: 1px solid #ccd0d5;
+    background: transparent;
+    //color: #1c1e21;
+    color: darkgrey;
+    &:hover {
+        color: lightslategrey ;
+        background-color: white;
+
+    }
+`
 // const Logo = styled.div`
 //     font-family: Arial, sans-serif;
 //     font-size: 20px;
@@ -108,20 +129,85 @@ interface HeaderProps {
 
 
 export function Header(props: HeaderProps) {
-
+    // const [ city, setCity ] = useState<string>("Delhi");
     const navigate = useNavigate();
-    // const [show, setShow] = useState<String>("")
+
+    const { state, dispatch } = useAppContext();
+
+
+    // const handleLogin = () => {
+    //     dispatch({ type: 'LOGIN', user: 'JohnDoe' });H
+    // };
+
+    const [coordinate, setCoordinate] = useState<{ lat: number; lng: number } | null>(null);
+    const [errorFetchingCoordinate, setErrorFetchingCoordinate] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Check if geolocation is available in the browser
+        if (navigator.geolocation) {
+            // Get the current position
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // On success, extract lat and lng from position and set state
+                    const { latitude, longitude } = position.coords;
+                    setCoordinate({ lat: latitude, lng: longitude });
+                },
+                (err) => {
+                    // On error, set the error state
+                    setErrorFetchingCoordinate('Error getting geolocation: ' + err.message);
+                },
+                {
+                    enableHighAccuracy: true,  // This requests a more accurate position
+                    timeout: 5000,             // Timeout in milliseconds
+                    maximumAge: 0              // Disables using cached location
+                }
+            );
+        } else {
+            setErrorFetchingCoordinate('Geolocation is not supported by this browser.');
+        }
+    }, []); // Empty array ensures this runs once on component mount
+
+    useEffect(() => {
+        if((errorFetchingCoordinate?.length || 0) === 0 && coordinate != null) {
+            console.log("coordinate "+ coordinate.lat +" --"+coordinate.lng);
+            const geoCode = (coordinate?.lat || "")?.toString().concat(' ').concat(coordinate?.lng.toString() || "");
+            console.log(geoCode);
+            getLocationFromGeoCode(geoCode)
+                .then(res => {
+                    if(res.status == 200) {
+                        handleCityUpdate(res.data.results[0].components.city);
+                    }}
+                ).catch(
+                    //need to ask for City Manually
+                //pop up Please Select City
+            )
+        }
+    }, [coordinate]);
+
+
+    const handleCityUpdate = (selectedCity: string) => {
+        dispatch({ type: 'UPDATE', appState:{city: selectedCity} });
+    };
+
 
     return (
         <HeaderGrid>
             <FlexStart>
-                <Button width1={"120px"} onClick={() => navigate("/")} >playbuddy</Button>
+                <Button key={"button"} width1={"120px"} onClick={() => navigate("/")} >{'playbuddy'}</Button>
+                <Select key={"CitySelect"} aria-label="City" name="City" id="city" title="City"
+                        onChange={e => handleCityUpdate(e.target.value)}
+                        value={state.city}
+
+                >
+                    {City.getCitiesOfCountry("IN")?.map((lcity, index) => <option
+                       key={index} value={lcity.name}> {lcity.name} {" - "}{lcity.stateCode}</option>)}
+                </Select>
             </FlexStart>
             <FlexMiddle>{props.title}</FlexMiddle>
 
             <FlexEnd>
                 <ProfileIcon >
-                    <BsFillPersonLinesFill title={"Account"}> </BsFillPersonLinesFill>
+                    <BsFillPersonLinesFill title={"Account"}  onClick={() => navigate("/registerBuddy")}> </BsFillPersonLinesFill>
                 </ProfileIcon>
             </FlexEnd>
 

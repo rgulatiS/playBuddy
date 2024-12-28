@@ -19,7 +19,7 @@ export interface IFacility {
     "active": boolean
     "facilityAddress": IAddress | null
     ,
-    "courts": ICourt[] | [] |  null | IFetchedCourt[]
+    "courts": ICourt[] | [] |  null
 } ;
 
 //{
