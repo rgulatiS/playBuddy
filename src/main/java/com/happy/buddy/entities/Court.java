@@ -1,6 +1,7 @@
 package com.happy.buddy.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.happy.buddy.enums.ActivityType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,13 +20,15 @@ public class Court extends BaseFields {
     @EmbeddedId
     private CourtPk id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false)
-    private Facility facility;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable = false, updatable = false)
     private Activity activity;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false)
+    private Facility facility;
 
     //activityName + seq
     private String courtName;
@@ -42,8 +45,5 @@ public class Court extends BaseFields {
 
     private String courtFeatures;
 
-    public Facility getFacility() {
-        return null;
-    }
 
 }

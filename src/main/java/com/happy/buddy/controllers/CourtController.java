@@ -32,10 +32,15 @@ public class CourtController {
         return courtService.saveCourt(court).getId();
     }
 
-//    @GetMapping("{id}")
-//    public Court getFacility(@PathVariable UUID id) {
-//        return courtRepository.findById(id).orElseThrow();
-//    }
+    @GetMapping()
+    public Court getCourt(@RequestParam("facilityId") Long facilityId, @RequestParam("activityId") Long activityId,
+                          @RequestParam("courtId") Long courtId){
+        CourtPk courtPk = new CourtPk();
+        courtPk.setFacilityId(facilityId);
+        courtPk.setActivityId(activityId);
+        courtPk.setCourtId(courtId);
+        return courtRepository.findById(courtPk).orElse(null);
+    }
 //    @GetMapping("{city}")
 //    public FacilityActivityCourt getFacilities(@PathVariable String city) {
 //        return facilityActivityCourtRepository.findByFacilityCity(city).orElseThrow();

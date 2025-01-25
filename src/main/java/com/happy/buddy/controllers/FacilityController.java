@@ -38,8 +38,8 @@ public class FacilityController {
         if (facility.getFacilityId() == null) {
             facility.setRegisteredOn(LocalDate.now());
         }
-        System.out.println(facility.getCourts().size() + " Courts Size ");
-        facility.getCourts().forEach( c -> System.out.println(c.getCourtFeatures()));
+//        System.out.println(facility.getCourts().size() + " Courts Size ");
+//        facility.getCourts().forEach( c -> System.out.println(c.getCourtFeatures()));
 
 
         Long facilityId = facilityRepository.save(facility).getFacilityId();

@@ -27,11 +27,11 @@ public class Facility extends BaseFields {
 
     private String facilityName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="facility_address_id", referencedColumnName = "address_id")
     private Address facilityAddress;
 
-    @OneToMany(mappedBy = "facility")
+    @OneToMany(mappedBy = "facility", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
     private List<Court> courts;
 
 
