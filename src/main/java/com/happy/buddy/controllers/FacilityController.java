@@ -68,7 +68,7 @@ public class FacilityController {
     @GetMapping("/all/{city}")
     public ResponseEntity<List<Facility>> getFacilities(@PathVariable String city) {
         List<Facility> facilityList = facilityRepository
-                   .findFacilitiesByisActiveAndFacilityAddress_City(true,city);
+                   .findFacilitiesByisActiveAndFacilityAddress_CityIgnoreCase(true,city);
         return new ResponseEntity<>(facilityList, HttpStatus.OK);
 
     }

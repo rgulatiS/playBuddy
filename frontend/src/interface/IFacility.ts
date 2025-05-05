@@ -1,5 +1,5 @@
 import {IAddress} from "./IAddress";
-import {ICourt, IFetchedCourt} from "./ICourt";
+import {ICourt} from "./ICourt";
 
 export interface IBuddyActivity {
     "activity": {"activityId": number},

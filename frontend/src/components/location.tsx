@@ -12,8 +12,8 @@ const GeolocationExample: React.FC = () => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     // On success, extract lat and lng from position and set state
-                    const { latitude, longitude } = position.coords;
-                    setLocation({ lat: latitude, lng: longitude });
+                    const {latitude, longitude} = position.coords;
+                    setLocation({lat: latitude, lng: longitude});
                 },
                 (err) => {
                     // On error, set the error state

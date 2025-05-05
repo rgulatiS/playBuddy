@@ -1,12 +1,11 @@
 package com.happy.buddy.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.happy.buddy.enums.ActivityType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 
 @Getter
@@ -14,6 +13,8 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "court")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Court extends BaseFields {
 
 
@@ -25,9 +26,10 @@ public class Court extends BaseFields {
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable = false, updatable = false)
     private Activity activity;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Facility facility;
 
     //activityName + seq

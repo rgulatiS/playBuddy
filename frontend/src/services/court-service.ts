@@ -2,7 +2,7 @@ import {IActivity} from "../interface/IActivity";
 import axios, {AxiosResponse} from "axios";
 import {ICourt} from "../interface/ICourt";
 
-export async function getCourts(activities  : IActivity[] | null): Promise<AxiosResponse<ICourt[]>> {
+export async function getCourts(activities: IActivity[] | null): Promise<AxiosResponse<ICourt[]>> {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -14,5 +14,5 @@ export async function getCourts(activities  : IActivity[] | null): Promise<Axios
         }
     };
 
-    return await axios.post("http://localhost:1234/court/all",activities, config);
+    return await axios.post("http://localhost:1234/court/all", activities, config);
 }

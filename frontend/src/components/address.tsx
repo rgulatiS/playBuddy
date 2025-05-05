@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+
 import {City, Country, State} from 'country-state-city';
 import styled from "styled-components";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
+
+
 import {IAddress} from "../interface/IAddress";
 
 const Row = styled.div`

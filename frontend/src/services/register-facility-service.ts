@@ -1,11 +1,8 @@
-import {IRegisterBuddy} from "../interface/IRegisterBuddy";
 import axios, {AxiosResponse} from 'axios';
-import {RandomUUIDOptions} from "node:crypto";
-import {IFacility} from "../interface/IFacility";
-import {IActivity} from "../interface/IActivity";
-import {ICourt} from "../interface/ICourt";
 
-export async function registerFacilityService(registerFacility: IFacility): Promise<AxiosResponse<RandomUUIDOptions>> {
+import {IFacility} from "../interface/IFacility";
+
+export async function registerFacilityService(registerFacility: IFacility): Promise<AxiosResponse<String>> {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -34,5 +31,5 @@ export async function getFacilities(city: string): Promise<AxiosResponse<IFacili
         }
     };
 
-    return await axios.get("http://localhost:1234/facility/all/"+city, config);
+    return await axios.get("http://localhost:1234/facility/all/" + city, config);
 }

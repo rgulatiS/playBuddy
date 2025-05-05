@@ -1,33 +1,32 @@
 import React, {useEffect, useState} from "react";
-import {IBuddyActivity, IRegisterBuddy} from "../interface/IRegisterBuddy";
+import {IBuddy, IBuddyActivity} from "../interface/IBuddy.ts";
 import {registerBuddyService} from "../services/register-buddy-service";
 import styled from "styled-components";
 import {getAllActivities} from "../services/activity-service";
 import {IActivity} from "../interface/IActivity";
 import playBuddyLoading from "../image/playBuddyLoading.gif"
-import Cricket from "../image/Cricket.gif"
-import Badminton from "../image/Badminton.gif"
-import PoolTable from "../image/PoolTable.gif"
-import Swimming from "../image/Swimming.gif"
-import {GiCricketBat, GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
-import {GrSwim} from "react-icons/gr";
+import {getIconOfActivity} from "./activityNameIcon.tsx";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAppContext} from "../common/context.tsx";
+// import {GiCricketBat, GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
+// import {GrSwim} from "react-icons/gr";
 
-const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({
-    // we can define static props
-    type: "text",
-
-    // or we can define dynamic ones
-    $size: props.$size || "1em",
-}))`
-    color: #BF4F74;
-    font-size: 1em;
-    border: 2px solid #BF4F74;
-    border-radius: 3px;
-
-    /* here we use the dynamically computed prop */
-    margin: ${props => props.$size};
-    padding: ${props => props.$size};
-`;
+// const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({
+//     // we can define static props
+//     type: "text",
+//
+//     // or we can define dynamic ones
+//     $size: props.$size || "1em",
+// }))`
+//     color: #BF4F74;
+//     font-size: 1em;
+//     border: 2px solid #BF4F74;
+//     border-radius: 3px;
+//
+//     /* here we use the dynamically computed prop */
+//     margin: ${props => props.$size};
+//     padding: ${props => props.$size};
+// `;
 
 // async function registerbuddy(formData:IRegisterBuddy) {
 //     // 'use server'
@@ -76,16 +75,20 @@ const Button = styled.button`
 `;
 
 const ActivityButton = styled.div<{ isSelected: boolean }>`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 4px;
     font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: ${({isSelected}) => isSelected ? "15px" : "15px"};
     line-height: 16px;
     min-width: 10px;
     padding: 11px;
     border-radius: 5px;
     position: relative;
-    border: 1px solid ${({isSelected}) => isSelected ? "#006400FF" : "#000000"};
+    border: ${({isSelected}) => isSelected ? "2px solid #000000" : "1px solid #000000"};
     background: ${({isSelected}) => isSelected ? "#D8D5D5FF" : "#ffffff"};
-    color: ${({isSelected}) => isSelected ? "#488B00FF" : "#000000"};
+    color: ${({isSelected}) => isSelected ? "#000000" : "#000000"};
     cursor: pointer;
 `;
 
@@ -263,10 +266,14 @@ export function RegisterBuddy() {
     const [yearOfBirth, setYearOfBirth] = useState<string>("1980");
     const [gender, setGender] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    // const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isActivityLoading, setIsActivityLoading] = useState<boolean>(true);
     const [activities, setActivities] = useState<IActivity[]>([]);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const appContext = useAppContext();
+    const phone = (location.state as { phone: string })?.phone;
     // const [registerBuddy, setRegisterBuddy] = useState<IRegisterBuddy>(dummyRegisterBuddy);
     // const [emergencyContactName , setEmergencyContactName] = useState<string>("");
     // const [emergencyContactPhone , setEmergencyContactPhone] = useState<string>("");
@@ -279,7 +286,7 @@ export function RegisterBuddy() {
     // const [country, setCountry] = useState<string>("");
     const nameRegex = new RegExp("^[a-zA-Z.][^0-9]*$");
     const nameRegexWithSpace = new RegExp("^[a-zA-Z\\s? .][^\\t\\n\\r0-9]*$");
-    const phoneNumberRegex = new RegExp("^(\\+91[\\-\\s]?)?[0]?(91)?[789]\\d{9}$");
+    // const phoneNumberRegex = new RegExp("^(\\+91[\\-\\s]?)?[0]?(91)?[789]\\d{9}$");
     const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
 
     useEffect(() => {
@@ -306,9 +313,9 @@ export function RegisterBuddy() {
         return localSurname != null && localSurname.length > 0 && localSurname.match(nameRegex)
     }
 
-    function validatePhoneNumber(localPhoneNumber: string) {
-        return localPhoneNumber != null && localPhoneNumber.length > 0 && localPhoneNumber.match(phoneNumberRegex)
-    }
+    // function validatePhoneNumber(localPhoneNumber: string) {
+    //     return localPhoneNumber != null && localPhoneNumber.length > 0 && localPhoneNumber.match(phoneNumberRegex)
+    // }
 
     function validateEmail(localEmail: string) {
         return localEmail != null && localEmail.length > 0 && localEmail.match(emailRegex)
@@ -326,7 +333,8 @@ export function RegisterBuddy() {
     function isMandatoryFieldsFilled() {
         return isNotNull(gender) && isNotNull(firstName) && isNotNull(surname)
             && isNotNull(dayOfBirth) && isNotNull(monthOfBirth) && isNotNull(yearOfBirth)
-            && isNotNull(phoneNumber) && isNotNull(email)
+            // && isNotNull(phoneNumber)
+            && isNotNull(email)
             && isNotNull(password)
     }
 
@@ -334,25 +342,28 @@ export function RegisterBuddy() {
     function validateFormFilledCorrectly() {
         return isMandatoryFieldsFilled()
             && validateFirstName(firstName) && validateSurname(surname)
-            && validateEmail(email) && validatePhoneNumber(phoneNumber)
+            && validateEmail(email)
+            // && validatePhoneNumber(phoneNumber)
             && validateGender(gender)
 
     }
 
 
     function submitForm() {
-        const declaredActivities : IBuddyActivity[] = activities.filter((act)=>act.isSelected).map((act) =>
-            {return ({activity: {activityId: act.activityId},
-                    selfDeclaredProficiency: "BEGINNER"})
+        const declaredActivities: IBuddyActivity[] = activities.filter((act) => act.isSelected).map((act) => {
+                return ({
+                    activity: {activityId: act.activityId},
+                    selfDeclaredProficiency: "BEGINNER"
+                })
             }
         );
 
-        const registerBuddy: IRegisterBuddy = {
+        const registerBuddy: IBuddy = {
             buddyDob: yearOfBirth.toString().concat("-").concat(monthOfBirth.toString()).concat("-").concat(dayOfBirth.toString()).concat(" 00:00"),
             buddyName: firstName.concat(" ").concat(surname),
             email: email,
             gender: gender.toString(),
-            phone: phoneNumber,
+            phone: phone,
             buddyActivities: declaredActivities,
             address: null
         }
@@ -364,7 +375,9 @@ export function RegisterBuddy() {
                     setShowResult(true);
                     setResultMessage("Registered successfully " + e.data);
                 }, 2000)
-
+                appContext.dispatch({type: 'ADD_BUDDY', appState: {...appContext.state, buddy: e.data}});
+                navigate("/");
+                // dispatch({type: 'UPDATE_CITY', appState: {...state, city: selectedCity}});
             } else {
                 setTimeout(() => {
                     setShowResult(true);
@@ -408,19 +421,19 @@ export function RegisterBuddy() {
         }
     }
 
-    function onChangePhoneNumber() {
-        return (event: React.ChangeEvent<HTMLInputElement>) => {
-            const localPhoneNumber = event.target.value;
-            setPhoneNumber(localPhoneNumber);
-            if (validatePhoneNumber(localPhoneNumber)) {
-                setShowError(false);
-                setErrorMessage("");
-            } else {
-                setShowError(true);
-                setErrorMessage("PhoneNumber is not filled correctly");
-            }
-        }
-    }
+    // function onChangePhoneNumber() {
+    //     return (event: React.ChangeEvent<HTMLInputElement>) => {
+    //         const localPhoneNumber = event.target.value;
+    //         setPhoneNumber(localPhoneNumber);
+    //         if (validatePhoneNumber(localPhoneNumber)) {
+    //             setShowError(false);
+    //             setErrorMessage("");
+    //         } else {
+    //             setShowError(true);
+    //             setErrorMessage("PhoneNumber is not filled correctly");
+    //         }
+    //     }
+    // }
 
     function onChangeEmail() {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -463,18 +476,25 @@ export function RegisterBuddy() {
             }
         }
     }
-function getImage(activityName: string){
-        switch (activityName) {
-            case  "Cricket": return <GiCricketBat /> ;
-            case "Badminton": return <GiShuttlecock /> ;
-            case "POOL": return <GiPoolTableCorner />;
-            case "Swimming": return <GrSwim />;
-            default : return <GiCricketBat />;
 
-        }
-    }
+    // function getImage(activityName: string) {
+    //     switch (activityName) {
+    //         case  "Cricket":
+    //             return <GiCricketBat/>;
+    //         case "Badminton":
+    //             return <GiShuttlecock/>;
+    //         case "POOL":
+    //             return <GiPoolTableCorner/>;
+    //         case "Swimming":
+    //             return <GrSwim/>;
+    //         default :
+    //             return <GiCricketBat/>;
+    //
+    //     }
+    // }
+
     function updateActivities(activity: IActivity) {
-        const currentActivities = activities.map((act, index) => {
+        const currentActivities = activities.map((act) => {
             if (act.activityId == activity.activityId) {
                 return {...activity, isSelected: !activity.isSelected};
             } else {
@@ -527,7 +547,7 @@ function getImage(activityName: string){
                     <Select aria-label="Month" name="birthday_month" id="month" title="Month"
                             onChange={event => setMonthOfBirth(event.target.value)}
                             value={monthOfBirth}>
-                        {getMonths().map((month, index) => <option value={month.seq}>{month.name}</option>)}
+                        {getMonths().map((month) => <option value={month.seq}>{month.name}</option>)}
                     </Select>
                     <Select aria-label="Year" name="birthday_year" id="year" title="Year"
                             onChange={event => setYearOfBirth(event.target.value)}
@@ -544,12 +564,12 @@ function getImage(activityName: string){
                     <GenderSpan><GenderLabel>Female
                         <GenderInput type="radio" id="gender" name="gender"
                                      value={gender}
-                                     onClick={e => setGender("1")}
+                                     onClick={() => setGender("1")}
                         /></GenderLabel></GenderSpan>
                     <GenderSpan><GenderLabel>Male
                         <GenderInput type="radio" id="gender" name="gender"
                                      value={gender}
-                                     onClick={e => setGender("0")}/>
+                                     onClick={() => setGender("0")}/>
                     </GenderLabel></GenderSpan>
                 </Row>
 
@@ -564,9 +584,7 @@ function getImage(activityName: string){
                                             id={activity.activityId.toString()}
                                             onClick={updateActivities(activity)}
                                             key={activity.activityId}>
-                                {
-                                    // getImage(activity.activityName) +
-                                    activity.activityName}
+                                {getIconOfActivity(activity.activityName)} {activity.activityName}
                             </ActivityButton>
                         </GenderSpan>
                     )}
@@ -578,9 +596,11 @@ function getImage(activityName: string){
                     {/*<a id="birthday-help" href="#"  title="Click for more information" role="button" >*/}
                     {/*    <QuestionImage></QuestionImage></a>*/}
                 </SmartLabel>
-                <Row><Input type="input" name="phoneNumber" placeholder={"PhoneNumber"}
-                            onChange={onChangePhoneNumber()}
-                            value={phoneNumber}/>
+                <Row><Input type="input" name="phoneNumber"
+                             placeholder={phone}
+                    // onChange={onChangePhoneNumber()}
+                            value={phone}
+                            disabled={true}/>
                     <Input type="email" name="email" placeholder={"Email"}
                            onChange={onChangeEmail()}
                            value={email} aria-invalid={true}/>

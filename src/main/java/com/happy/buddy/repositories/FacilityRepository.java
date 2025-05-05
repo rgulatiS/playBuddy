@@ -12,6 +12,6 @@ import java.util.UUID;
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
 //    List<Facility> findFacilitiesByActive(boolean active);
 
-    List<Facility> findFacilitiesByisActiveAndFacilityAddress_City(Boolean active, String city);
+    List<Facility> findFacilitiesByisActiveAndFacilityAddress_CityIgnoreCase(Boolean active, String city);
 
 }

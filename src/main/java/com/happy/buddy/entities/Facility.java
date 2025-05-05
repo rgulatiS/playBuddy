@@ -2,6 +2,7 @@ package com.happy.buddy.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
@@ -32,6 +33,7 @@ public class Facility extends BaseFields {
     private Address facilityAddress;
 
     @OneToMany(mappedBy = "facility", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+    @JsonManagedReference
     private List<Court> courts;
 
 
@@ -48,7 +50,7 @@ public class Facility extends BaseFields {
     private String facilityPocName;
     private String facilityOwnerName;
 
-    private boolean isActive;
+    private Boolean isActive;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate registeredOn;

@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {GiCricketBat, GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
-import {GrSwim} from "react-icons/gr";
 import {IFacility} from "../interface/IFacility";
 import {registerFacilityService} from "../services/register-facility-service";
 import {isAfter} from "date-fns";
@@ -11,23 +9,23 @@ import {ICourt} from "../interface/ICourt";
 import {getAllActivities} from "../services/activity-service";
 import {IActivity} from "../interface/IActivity";
 
-
-const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({
-    // we can define static props
-    type: "text",
-
-    // or we can define dynamic ones
-    $size: props.$size || "1em",
-}))`
-    color: #BF4F74;
-    font-size: 1em;
-    border: 2px solid #BF4F74;
-    border-radius: 3px;
-
-    /* here we use the dynamically computed prop */
-    margin: ${props => props.$size};
-    padding: ${props => props.$size};
-`;
+//
+// const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({
+//     // we can define static props
+//     type: "text",
+//
+//     // or we can define dynamic ones
+//     $size: props.$size || "1em",
+// }))`
+//     color: #BF4F74;
+//     font-size: 1em;
+//     border: 2px solid #BF4F74;
+//     border-radius: 3px;
+//
+//     /* here we use the dynamically computed prop */
+//     margin: ${props => props.$size};
+//     padding: ${props => props.$size};
+// `;
 
 // async function registerbuddy(formData:IRegisterBuddy) {
 //     // 'use server'
@@ -74,20 +72,20 @@ const Button = styled.button`
     color: white;
     cursor: pointer;
 `;
-
-const ActivityButton = styled.div<{ isSelected: boolean }>`
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    line-height: 16px;
-    min-width: 10px;
-    padding: 11px;
-    border-radius: 5px;
-    position: relative;
-    border: 1px solid ${({isSelected}) => isSelected ? "#006400FF" : "#000000"};
-    background: ${({isSelected}) => isSelected ? "#D8D5D5FF" : "#ffffff"};
-    color: ${({isSelected}) => isSelected ? "#488B00FF" : "#000000"};
-    cursor: pointer;
-`;
+//
+// const ActivityButton = styled.div<{ isSelected: boolean }>`
+//     font-family: Arial, sans-serif;
+//     font-size: 15px;
+//     line-height: 16px;
+//     min-width: 10px;
+//     padding: 11px;
+//     border-radius: 5px;
+//     position: relative;
+//     border: 1px solid ${({isSelected}) => isSelected ? "#006400FF" : "#000000"};
+//     background: ${({isSelected}) => isSelected ? "#D8D5D5FF" : "#ffffff"};
+//     color: ${({isSelected}) => isSelected ? "#488B00FF" : "#000000"};
+//     cursor: pointer;
+// `;
 
 const ErrorRow = styled.div<{ isSuccess: boolean }>`
     display: grid;
@@ -147,32 +145,32 @@ const RegisterForm = styled.form`
     //margin-top: 30px;
 `;
 
-
-const GenderSpan = styled.span`
-    background-color: #fff;
-    border: 1px solid #ccd0d5;
-    box-sizing: border-box;
-    display: inline-block;
-    flex: 1 0 auto;
-    font-weight: normal;
-    height: 36px;
-    margin: 0 6px 6px 0;
-    padding: 0;
-    position: relative;
-    width: auto;
-    border-radius: 5px;
-`;
-
-const GenderLabel = styled.label`
-    box-sizing: border-box;
-    color: #1c1e21;
-    display: inline-block;
-    font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 36px;
-    padding: 0 28px 0 10px;
-    width: 100%;
-`;
+//
+// const GenderSpan = styled.span`
+//     background-color: #fff;
+//     border: 1px solid #ccd0d5;
+//     box-sizing: border-box;
+//     display: inline-block;
+//     flex: 1 0 auto;
+//     font-weight: normal;
+//     height: 36px;
+//     margin: 0 6px 6px 0;
+//     padding: 0;
+//     position: relative;
+//     width: auto;
+//     border-radius: 5px;
+// `;
+//
+// const GenderLabel = styled.label`
+//     box-sizing: border-box;
+//     color: #1c1e21;
+//     display: inline-block;
+//     font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+//     font-size: 15px;
+//     line-height: 36px;
+//     padding: 0 28px 0 10px;
+//     width: 100%;
+// `;
 
 const GenderInput = styled.input`
     width: 20px;
@@ -268,13 +266,13 @@ function isNotNull(value: string | undefined | null) {
 
 export function RegisterFacility() {
     const counts = getCounts();
-    const [activities , setActivities] = useState<IActivity[]>([])
+    const [activities, setActivities] = useState<IActivity[]>([])
     const [isActivityLoading, setIsActivityLoading] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [showResult, setShowResult] = useState<boolean>(false);
     const [resultMessage, setResultMessage] = useState<string>("");
-    const [submit, setSubmit] = useState<boolean>(false);
+    // const [submit, setSubmit] = useState<boolean>(false);
     const [facilityName, setFacilityName] = useState<string>("");
 
     const [dayOfActivation, setDayOfActivation] = useState<number>((new Date()).getDate());
@@ -294,9 +292,9 @@ export function RegisterFacility() {
     const [password, setPassword] = useState<string>("");
 
     const [selectedActivity, setSelectedActivity] = useState<string>("");
-    const [selectedCount, setSelectedCount] =useState<number>(0);
+    const [selectedCount, setSelectedCount] = useState<number>(0);
     const [courtComment, setCourtComment] = useState<string>("");
-    const [selectedPricePerHour, setSelectedPricePerHour] = useState<string>("0");
+    const [selectedPricePerHour] = useState<string>("0");
 
     const dummyAddress = {
         "addressType": "facilityAddress",
@@ -314,7 +312,7 @@ export function RegisterFacility() {
     const [address, setAddress] = useState<IAddress>(dummyAddress)
     // const [isActivityLoading, setIsActivityLoading] = useState<boolean>(true);
     // const [activities, setActivities] = useState<IActivity[]>([]);
-    const [courts , setCourts] = useState<ICourt[]>([]);
+    const [courts] = useState<ICourt[]>([]);
 
     const nameRegex = new RegExp("^[a-zA-Z.][^0-9]*$");
     const nameRegexWithSpace = new RegExp("^[a-zA-Z\\s? .][^\\t\\n\\r0-9]*$");
@@ -389,38 +387,39 @@ export function RegisterFacility() {
         //Need Courts
     }
 
-    function  addZeroIfSingleDigit(val: number) : string {
+    function addZeroIfSingleDigit(val: number): string {
         return val > 9 ? val.toString() : "0" + val.toString();
     }
+
     function submitForm() {
         // const declaredActivities : IBuddyActivity[] = activities.filter((act)=>act.isSelected).map((act) =>
         //     {return ({activity: {activityId: act.activityId},
         //             selfDeclaredProficiency: "BEGINNER"})
         //     }
         // );
-        let finalCourts : ICourt[] = courts;
-if(selectedCount > 0) {
-    const getCourtValues = (seq: number): ICourt => ({
-        id: {
-            activityId: selectedActivity,
-            facilityId: undefined,
-        },
-        courtName: undefined,
-        courtFeatures: seq.toString().concat(":").concat(courtComment),
-        courtPriceForOneHour: selectedPricePerHour,
-        courtPriceForTwoHours: (parseInt(selectedPricePerHour) * 2).toString(),
-        courtPriceForFourHours: (parseInt(selectedPricePerHour) * 2).toString(),
-        courtPriceForFullDay: "1000",
-        isLessPlayerDiscountAvailable: false,
-        lessPlayerDiscountInPercent: 10
+        let finalCourts: ICourt[] = courts;
+        if (selectedCount > 0) {
+            const getCourtValues = (seq: number): ICourt => ({
+                id: {
+                    activityId: selectedActivity,
+                    facilityId: undefined,
+                },
+                courtName: undefined,
+                courtFeatures: seq.toString().concat(":").concat(courtComment),
+                courtPriceForOneHour: selectedPricePerHour,
+                courtPriceForTwoHours: (parseInt(selectedPricePerHour) * 2).toString(),
+                courtPriceForFourHours: (parseInt(selectedPricePerHour) * 2).toString(),
+                courtPriceForFullDay: "1000",
+                isLessPlayerDiscountAvailable: false,
+                lessPlayerDiscountInPercent: 10
 
-    });
-console.log(getCourtValues(1));
-    for (let i = 1; i <= selectedCount; i++) {
-    finalCourts = [...finalCourts, getCourtValues(i)];
+            });
+            console.log(getCourtValues(1));
+            for (let i = 1; i <= selectedCount; i++) {
+                finalCourts = [...finalCourts, getCourtValues(i)];
 
-    }
-}
+            }
+        }
 
         const registerFacility: IFacility = {
             registeredOn: yearOfActivation.toString().concat("-").concat(addZeroIfSingleDigit(monthOfActivation))
@@ -475,7 +474,7 @@ console.log(getCourtValues(1));
 
     function validateAndSubmit() {
         return (() => {
-            setSubmit(true);
+            // setSubmit(true);
             if (isMandatoryFieldsFilled()) {
                 setShowError(true);
                 setErrorMessage("Please fill Mandatory fields as required")
@@ -628,129 +627,127 @@ console.log(getCourtValues(1));
     }
 
 
-
-
-
     return (
         isActivityLoading ?
             <RegisterForm>
                 {/*<QuestionImage src={playBuddyLoading}> </QuestionImage>*/}
                 <SmartLabel> Screen is Loading </SmartLabel>
             </RegisterForm> :
-        <RegisterForm id={"registerForm"}>
-            {showResult ? <ErrorRow isSuccess={resultMessage.includes("success")}>{resultMessage}</ErrorRow> :
-                <></>}
-            {showError ? <ErrorRow isSuccess={false}>{errorMessage}</ErrorRow> : <ErrorEmptyRow> </ErrorEmptyRow>}
-            <SmartLabel>Facility Name<span style={{color: 'red'}}>*</span></SmartLabel>
-            <Row><Input type="input" name="facilityName" placeholder={"Facility Name"}
-                        onChange={onChangeFacilityName()}
-                        value={facilityName}/>
-            </Row>
+            <RegisterForm id={"registerForm"}>
+                {showResult ? <ErrorRow isSuccess={resultMessage.includes("success")}>{resultMessage}</ErrorRow> :
+                    <></>}
+                {showError ? <ErrorRow isSuccess={false}>{errorMessage}</ErrorRow> : <ErrorEmptyRow> </ErrorEmptyRow>}
+                <SmartLabel>Facility Name<span style={{color: 'red'}}>*</span></SmartLabel>
+                <Row><Input type="input" name="facilityName" placeholder={"Facility Name"}
+                            onChange={onChangeFacilityName()}
+                            value={facilityName}/>
+                </Row>
 
 
-            <SmartLabel>Date of Activation<span style={{color: 'red'}}>*</span></SmartLabel>
-            <Row>
-                <Select aria-label="Day" name="Activationday_day" id="day" title="Day"
-                        onChange={event => handleDayChange(event)}
-                        value={dayOfActivation}>
-                    {getDays().map((day) => <option value={day}>{day}</option>)}
+                <SmartLabel>Date of Activation<span style={{color: 'red'}}>*</span></SmartLabel>
+                <Row>
+                    <Select aria-label="Day" name="Activationday_day" id="day" title="Day"
+                            onChange={event => handleDayChange(event)}
+                            value={dayOfActivation}>
+                        {getDays().map((day) => <option value={day}>{day}</option>)}
 
-                </Select>
-                <Select aria-label="Month" name="Activationday_month" id="month" title="Month"
-                        onChange={event => handleMonthChange(event)}
-                        value={monthOfActivation}>
-                    {getMonths().map((month, index) => <option key={month.seq}
-                                                               value={month.seq}>{month.name + month.seq}</option>)}
-                </Select>
-                <Select aria-label="Year" name="Activationday_year" id="year" title="Year"
-                        onChange={event => handleYearChange(event)}
-                        value={yearOfActivation}>
-                    {getYears().map((year) => <option value={year}>{year}</option>)}
-                </Select>
-            </Row>
-            <SmartLabel>Owner Contact<span style={{color: 'red'}}>*</span>
-                {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
-                {/*    <QuestionImage></QuestionImage></a>*/}
-            </SmartLabel>
-            <Row>
-                <Input type="input" name="ownerName" placeholder={"Owner Name"}
-                       onChange={onChangeFacilityOwnerName()}
-                       value={ownerName}/>
-                <Input type="input" name="ownerPhoneNumber" placeholder={"Owner Phone Number"}
-                       onChange={onChangeOwnerPhoneNumber()}
-                       value={ownerPhoneNumber}/>
-                <Input type="email" name="ownerEmail" placeholder={"Owner Email"}
-                       onChange={onChangeOwnerEmail()}
-                       value={ownerEmail} aria-invalid={true}/>
-            </Row>
+                    </Select>
+                    <Select aria-label="Month" name="Activationday_month" id="month" title="Month"
+                            onChange={event => handleMonthChange(event)}
+                            value={monthOfActivation}>
+                        {getMonths().map((month) => <option key={month.seq}
+                                                                   value={month.seq}>{month.name + month.seq}</option>)}
+                    </Select>
+                    <Select aria-label="Year" name="Activationday_year" id="year" title="Year"
+                            onChange={event => handleYearChange(event)}
+                            value={yearOfActivation}>
+                        {getYears().map((year) => <option value={year}>{year}</option>)}
+                    </Select>
+                </Row>
+                <SmartLabel>Owner Contact<span style={{color: 'red'}}>*</span>
+                    {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
+                    {/*    <QuestionImage></QuestionImage></a>*/}
+                </SmartLabel>
+                <Row>
+                    <Input type="input" name="ownerName" placeholder={"Owner Name"}
+                           onChange={onChangeFacilityOwnerName()}
+                           value={ownerName}/>
+                    <Input type="input" name="ownerPhoneNumber" placeholder={"Owner Phone Number"}
+                           onChange={onChangeOwnerPhoneNumber()}
+                           value={ownerPhoneNumber}/>
+                    <Input type="email" name="ownerEmail" placeholder={"Owner Email"}
+                           onChange={onChangeOwnerEmail()}
+                           value={ownerEmail} aria-invalid={true}/>
+                </Row>
 
-            <SmartLabel>
-                <GenderInput type="checkbox" id="isPocAndOwnerSame" name="isPocAndOwnerSame"
-                    // value={isPocAndOwnerSame}
-                    // defaultValue={false}
-                             onClick={e => handlePocOwnerCheckBox()}
-                />
-                Are Point Of Contact(Poc) & Owner Same
-                {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
-                {/*    <QuestionImage></QuestionImage></a>*/}
-            </SmartLabel>
+                <SmartLabel>
+                    <GenderInput type="checkbox" id="isPocAndOwnerSame" name="isPocAndOwnerSame"
+                        // value={isPocAndOwnerSame}
+                        // defaultValue={false}
+                                 onClick={() => handlePocOwnerCheckBox()}
+                    />
+                    Are Point Of Contact(Poc) & Owner Same
+                    {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
+                    {/*    <QuestionImage></QuestionImage></a>*/}
+                </SmartLabel>
 
-            <SmartLabel>Point Of Contact(Poc) Info <span hidden={isPocOwnerSame} style={{color: 'red'}}>*</span>
-                {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
-                {/*    <QuestionImage></QuestionImage></a>*/}
-            </SmartLabel>
-            <Row>
-                <Input type="input" name="ownerName" placeholder={"Poc Name"}
-                       onChange={onChangeFacilityPocName()} disabled={isPocOwnerSame}
-                       value={pocName}/>
-                <Input type="input" name="ownerPhoneNumber" placeholder={"Poc Phone Number"}
-                       onChange={onChangePocPhoneNumber()} disabled={isPocOwnerSame}
-                       value={pocPhoneNumber}/>
-                <Input type="email" name="ownerEmail" placeholder={"Poc Email"}
-                       onChange={onChangePocEmail()} disabled={isPocOwnerSame}
-                       value={pocEmail} aria-invalid={true}/>
-            </Row>
-            <SmartLabel>Court Available with Activity
-                <a id="Activationday-help" href="#"  title="Click for more information" role="button" >
-                    <QuestionImage></QuestionImage></a>
-            </SmartLabel>
-            <Row>
-                <Select aria-label="Activities" name="Activationday_year" id="year" title="Year"
-                        onChange={event => setSelectedActivity(event.target.value)}
-                        value={selectedActivity}>
-                    {activities.map((activity) => <option value={activity.activityId}>{activity.activityName}</option>)}
-                </Select>
-                <Select aria-label="CourtCount" name="CourtCount" id="CourtCount" title="CourtCount"
-                        onChange={event => setSelectedCount(parseInt(event.target.value))}
-                        value={selectedCount}>
-                    {counts.map((count) => <option value={count}>{count}</option>)}
-                </Select>
-                <Input type="input" name="CourtComment" placeholder={"Special Comments On Court"}
-                       onChange={e=> setCourtComment(e.target.value)}
-                       value={courtComment}/>
+                <SmartLabel>Point Of Contact(Poc) Info <span hidden={isPocOwnerSame} style={{color: 'red'}}>*</span>
+                    {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
+                    {/*    <QuestionImage></QuestionImage></a>*/}
+                </SmartLabel>
+                <Row>
+                    <Input type="input" name="ownerName" placeholder={"Poc Name"}
+                           onChange={onChangeFacilityPocName()} disabled={isPocOwnerSame}
+                           value={pocName}/>
+                    <Input type="input" name="ownerPhoneNumber" placeholder={"Poc Phone Number"}
+                           onChange={onChangePocPhoneNumber()} disabled={isPocOwnerSame}
+                           value={pocPhoneNumber}/>
+                    <Input type="email" name="ownerEmail" placeholder={"Poc Email"}
+                           onChange={onChangePocEmail()} disabled={isPocOwnerSame}
+                           value={pocEmail} aria-invalid={true}/>
+                </Row>
+                <SmartLabel>Court Available with Activity
+                    <a id="Activationday-help" href="#" title="Click for more information" role="button">
+                        <QuestionImage></QuestionImage></a>
+                </SmartLabel>
+                <Row>
+                    <Select aria-label="Activities" name="Activationday_year" id="year" title="Year"
+                            onChange={event => setSelectedActivity(event.target.value)}
+                            value={selectedActivity}>
+                        {activities.map((activity) => <option
+                            value={activity.activityId}>{activity.activityName}</option>)}
+                    </Select>
+                    <Select aria-label="CourtCount" name="CourtCount" id="CourtCount" title="CourtCount"
+                            onChange={event => setSelectedCount(parseInt(event.target.value))}
+                            value={selectedCount}>
+                        {counts.map((count) => <option value={count}>{count}</option>)}
+                    </Select>
+                    <Input type="input" name="CourtComment" placeholder={"Special Comments On Court"}
+                           onChange={e => setCourtComment(e.target.value)}
+                           value={courtComment}/>
 
-            </Row>
-            <Address setAddress={setAddress} address={address}></Address>
+                </Row>
+                <Address setAddress={setAddress} address={address}></Address>
 
-            <SmartLabel> Password<span style={{color: 'red'}}>*</span>
-                {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
-                {/*    <QuestionImage></QuestionImage></a>*/}
-            </SmartLabel>
-            <Row><Input type="password"
-                // className="inputtext _58mg _5dba _2ph-" data-type="password"
-                // autoComplete="new-password" name="reg_passwd__" id="password_step_input" aria-required="true"
-                // placeholder="New Password" aria-label="New password" aria-describedby="js_fq"
-                // aria-invalid="true"
-                // aria-autocomplete="list"
-                        name="password" placeholder={"New Password"}
-                        onChange={onChangePassword()}
-                        value={password} aria-invalid={true}
-            /></Row>
+                <SmartLabel> Password<span style={{color: 'red'}}>*</span>
+                    {/*<a id="Activationday-help" href="#"  title="Click for more information" role="button" >*/}
+                    {/*    <QuestionImage></QuestionImage></a>*/}
+                </SmartLabel>
+                <Row><Input type="password"
+                    // className="inputtext _58mg _5dba _2ph-" data-type="password"
+                    // autoComplete="new-password" name="reg_passwd__" id="password_step_input" aria-required="true"
+                    // placeholder="New Password" aria-label="New password" aria-describedby="js_fq"
+                    // aria-invalid="true"
+                    // aria-autocomplete="list"
+                            name="password" placeholder={"New Password"}
+                            onChange={onChangePassword()}
+                            value={password} aria-invalid={true}
+                /></Row>
 
-            <Row style={{marginTop: "30px"}}>
-                <Button type="button" onClick={validateAndSubmit()}>Register</Button>
-            </Row>
-        </RegisterForm>
+                <Row style={{marginTop: "30px"}}>
+                    <Button type="button" onClick={validateAndSubmit()}>Register</Button>
+                </Row>
+            </RegisterForm>
 
     )
 }

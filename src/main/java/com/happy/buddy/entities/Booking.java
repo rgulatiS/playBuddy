@@ -15,8 +15,8 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "booking"
-, uniqueConstraints = {@UniqueConstraint(columnNames = {"facility_id", "activity_id", "court_id","court_booking_date", "court_booking_from_time"})
-        , @UniqueConstraint(columnNames = {"facility_id", "activity_id", "court_id","court_booking_date", "court_booking_to_time"})})
+        , uniqueConstraints = {@UniqueConstraint(columnNames = {"facility_id", "activity_id", "court_id", "court_booking_date", "court_booking_from_time"})
+        , @UniqueConstraint(columnNames = {"facility_id", "activity_id", "court_id", "court_booking_date", "court_booking_to_time"})})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Booking extends BaseFields {
@@ -26,14 +26,13 @@ public class Booking extends BaseFields {
     private UUID bookingId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "court_id", referencedColumnName = "court_id", insertable = false, updatable = false)
-    @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false)
-    @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable = false, updatable = false)
+    @JoinColumns({@JoinColumn(name = "court_id", referencedColumnName = "court_id", insertable = false, updatable = false),
+            @JoinColumn(name = "facility_id", referencedColumnName = "facility_id", insertable = false, updatable = false),
+            @JoinColumn(name = "activity_id", referencedColumnName = "activity_id", insertable = false, updatable = false)
+    })
     private Court court;
-//    private Integer courtBookingFromTime;
-//    private Integer courtBookingToTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "buddy_id", referencedColumnName = "buddy_id", insertable = false, updatable = false)
     private Buddy buddy;
 

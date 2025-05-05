@@ -1,19 +1,12 @@
-import React, {ReactElement} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Header} from "./components/header";
 import {
     createBrowserRouter,
     RouterProvider,
-    Route,
-    Link,
 } from "react-router-dom";
 import {RegisterBuddy} from "./components/register-buddy";
-import {GlobalVariable} from "./global";
 import {RegisterFacility} from "./components/register-faciity";
 import {Facilities} from "./components/facilities";
-import {createContext} from "node:vm";
-// import {MainContext} from "./interface/MainContext";
 import {AppProvider} from "./common/context";
 
 
