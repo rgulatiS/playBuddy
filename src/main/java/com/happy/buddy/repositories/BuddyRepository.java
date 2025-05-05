@@ -1,7 +1,6 @@
 package com.happy.buddy.repositories;
 
 import com.happy.buddy.entities.Buddy;
-;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
