@@ -1,17 +1,21 @@
 import './App.css';
-import {Header} from "./components/header";
+import {Header} from "./pages/header.tsx";
 import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import {RegisterBuddy} from "./components/register-buddy";
-import {RegisterFacility} from "./components/register-faciity";
-import {Facilities} from "./components/facilities";
+import {RegisterBuddy} from "./pages/register-buddy.tsx";
+import {RegisterFacility} from "./pages/register-faciity.tsx";
+import {Facilities} from "./pages/facilities.tsx";
 import {AppProvider} from "./common/context";
+import PhoneNumberPage from "./pages/phoneNumberPage.tsx";
+import VerificationPage from "./pages/verificationPage.tsx";
+import BuddyProfile from "./pages/buddyProfile.tsx";
 
 
 function App() {
-
+    // <Route path="/" element={<PhoneNumberPage />} />
+    // <Route path="/verify" element={<VerificationPage />} />
 
     const router = createBrowserRouter([
         {
@@ -44,7 +48,14 @@ function App() {
             path: "/login",
             element: <>
                 <Header title={"Login"}></Header>
-                <div>Login</div>
+                <PhoneNumberPage></PhoneNumberPage>
+            </>,
+        },
+        {
+            path: "/verify",
+            element: <>
+                <Header title={"Verify"}></Header>
+                <VerificationPage></VerificationPage>
             </>,
         },
         {
@@ -60,6 +71,13 @@ function App() {
                 <Header title={"Register Facility"}></Header>
                 <RegisterFacility></RegisterFacility>
             </>,
+        },
+        {
+            path: "/myProfile",
+            element: <>
+                <Header title={"My Profile"}></Header>
+                <BuddyProfile></BuddyProfile>
+            </>
         },
         {
             path: "/",

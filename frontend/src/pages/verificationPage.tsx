@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import OTPInput from '../components/OTPInput';
+import OTPInput from '../components/OTPInput.tsx';
 import styled from 'styled-components';
 import {ErrorEmptyRow, ErrorRow} from "../common/styleComponent/error.tsx";
 import {getBuddyByPhoneNumber} from "../services/register-buddy-service.ts";

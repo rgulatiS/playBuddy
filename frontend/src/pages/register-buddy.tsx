@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {IBuddy, IBuddyActivity} from "../interface/IBuddy.ts";
-import {registerBuddyService} from "../services/register-buddy-service";
+import {registerBuddyService} from "../services/register-buddy-service.ts";
 import styled from "styled-components";
-import {getAllActivities} from "../services/activity-service";
-import {IActivity} from "../interface/IActivity";
+import {getAllActivities} from "../services/activity-service.ts";
+import {IActivity} from "../interface/IActivity.ts";
 import playBuddyLoading from "../image/playBuddyLoading.gif"
-import {getIconOfActivity} from "./activityNameIcon.tsx";
+import {getIconOfActivity} from "../components/activityNameIcon.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAppContext} from "../common/context.tsx";
 // import {GiCricketBat, GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";

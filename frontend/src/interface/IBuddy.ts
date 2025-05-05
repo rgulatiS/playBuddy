@@ -1,8 +1,20 @@
+
+
 export interface IBuddyActivity {
     "activity": {"activityId": number},
     "selfDeclaredProficiency": string
 }
-export interface IRegisterBuddy {
+
+export interface IBuddyAddress  {
+    "addressType": "buddyAddress",
+    "street": string,
+    "city": string,
+    "state": string,
+    "zip": string,
+    "country": string
+};
+
+export interface IBuddy {
     "buddyName": string,
     "buddyDob": string,
     "gender": string,
@@ -11,15 +23,7 @@ export interface IRegisterBuddy {
     "emergencyContact"?: string | undefined | null,
     "emergencyContactPhone"?: string | undefined | null ,
     "emergencyContactEmail"?: string | undefined | null,
-    "address"?:
-        {
-            "addressType": "buddyAddress",
-            "street": string,
-            "city": string,
-            "state": string,
-            "zip": string,
-            "country": string
-        } | undefined | null
+    "address"?:        IBuddyAddress | undefined | null
     ,
     "buddyActivities": IBuddyActivity[] | undefined | []
 } ;

@@ -1,11 +1,18 @@
+import {IActivity} from "./IActivity.ts";
+import {IBuddy} from "./IBuddy.ts";
+
 export interface AppState {
     city: string;
+    activities: IActivity[];
+    buddy: IBuddy| null;
 }
 
 export type Action =
-    { type: 'CREATE', appState: AppState }
-    | { type: 'DELETE' , appState: AppState}
-    | { type: 'UPDATE' , appState: AppState};
+    { type: 'ADD_CITY', appState: AppState }
+    | { type: 'UPDATE_CITY', appState: AppState }
+    | { type: 'ADD_ACTIVITIES', appState: AppState }
+    | { type: 'ADD_BUDDY', appState: AppState }
+    | { type: 'UPDATE_BUDDY', appState: AppState };
 
 
 //

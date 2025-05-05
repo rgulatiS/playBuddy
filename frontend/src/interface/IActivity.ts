@@ -12,7 +12,8 @@ export interface IActivity{
     "activityType": string,
     "description": string,
     "isSelected": boolean,
-    "proficiency": ProficiencyLevel
+    "proficiency": ProficiencyLevel,
+    "iconPath": string,
 }
 
 export enum ActivityName {

@@ -1,6 +1,6 @@
 import  {useEffect, useState} from 'react';
-import {getFacilities} from "../services/register-facility-service";
-import {IFacility} from "../interface/IFacility";
+import {getFacilities} from "../services/register-facility-service.ts";
+import {IFacility} from "../interface/IFacility.ts";
 import {AiOutlineLoading} from "react-icons/ai";
 // import styled from "styled-components";
 // import { IActivity} from "../interface/IActivity";
@@ -9,8 +9,8 @@ import {AiOutlineLoading} from "react-icons/ai";
 // import {MdSportsCricket} from "react-icons/md";
 // import {FaPersonSwimming} from "react-icons/fa6";
 // import {GiPoolTableCorner, GiShuttlecock} from "react-icons/gi";
-import {useAppContext} from "../common/context";
-import FacilityCard from "./facilityCard.tsx";
+import {useAppContext} from "../common/context.tsx";
+import FacilityCard from "../components/facilityCard.tsx";
 import {IAddress} from "../interface/IAddress.ts";
 import {ErrorEmptyRow, ErrorRow} from "../common/styleComponent/error.tsx";
 

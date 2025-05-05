@@ -52,6 +52,8 @@ public class Facility extends BaseFields {
 
     private Boolean isActive;
 
+    private String profilePicture;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate registeredOn;
 

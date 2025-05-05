@@ -17,6 +17,7 @@ export interface IFacility {
     "facilityOwnerName": string,
 
     "active": boolean
+    "profilePicture" : string | null,
     "facilityAddress": IAddress | null
     ,
     "courts": ICourt[] | [] |  null

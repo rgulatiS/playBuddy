@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {IFacility} from "../interface/IFacility";
-import {registerFacilityService} from "../services/register-facility-service";
+import {IFacility} from "../interface/IFacility.ts";
+import {registerFacilityService} from "../services/register-facility-service.ts";
 import {isAfter} from "date-fns";
-import {Address} from "./address";
-import {IAddress} from "../interface/IAddress";
-import {ICourt} from "../interface/ICourt";
-import {getAllActivities} from "../services/activity-service";
-import {IActivity} from "../interface/IActivity";
+import {Address} from "../components/address.tsx";
+import {IAddress} from "../interface/IAddress.ts";
+import {ICourt} from "../interface/ICourt.ts";
+import {getAllActivities} from "../services/activity-service.ts";
+import {IActivity} from "../interface/IActivity.ts";
 
 //
 // const Inpute = styled.input.attrs<{ $size?: string; }>(props => ({

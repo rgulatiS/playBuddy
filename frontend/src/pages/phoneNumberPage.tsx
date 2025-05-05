@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
-import PhoneInput from "./phoneInput.tsx";
+import PhoneInput from "../components/phoneInput.tsx";
 
 const PageContainer = styled.div`
   display: flex;
