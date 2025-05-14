@@ -1,5 +1,5 @@
 package com.happy.buddy.controllers;
-import com.happy.buddy.services.AuthService;
+import com.happy.buddy.services.PhoneNumberAuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +12,11 @@ import java.util.Map;
     @RestController
     @RequestMapping("/api/auth")
     @CrossOrigin(origins = "*") // Allow CORS for frontend
-    public class AuthController {
+    public class PhoneNumberAuthController {
 
-        private final AuthService authService;
+        private final PhoneNumberAuthService authService;
 
-        public AuthController(AuthService authService) {
+        public PhoneNumberAuthController(PhoneNumberAuthService authService) {
             this.authService = authService;
         }
 

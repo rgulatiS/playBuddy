@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class AuthService {
+public class PhoneNumberAuthService {
     private final Map<String, String> otpStore = new HashMap<>();
     private final Random random = new Random();
 
